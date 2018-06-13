@@ -13,27 +13,22 @@ const core_1 = require("@gapi/core");
 const ipfs_1 = require("@gapi/ipfs");
 const gapi_ipfs_pubsub_config_1 = require("./gapi-ipfs-pubsub-config");
 const gapi_ipfs_pubsub_injection_1 = require("./gapi-ipfs-pubsub-injection");
-const gapi_ipfs_pubsub_logger_1 = require("./gapi-ipfs-pubsub-logger");
 const Room = require('ipfs-pubsub-room');
 let GapiIpfsPubSubModule = GapiIpfsPubSubModule_1 = class GapiIpfsPubSubModule {
     static forRoot(config) {
+        const ROOMS = [];
+        config.rooms
+            .map((room) => ROOMS.push({
+            provide: room,
+            deps: [ipfs_1.IPFS, gapi_ipfs_pubsub_injection_1.GapiIpfsPubSubRoom],
+            useFactory: (ipfs, room) => room(ipfs, room.name)
+        }));
         return {
             gapiModule: GapiIpfsPubSubModule_1,
             services: [
                 { provide: gapi_ipfs_pubsub_config_1.GapiIpfsPubSubConfig, useValue: config || {} },
-                {
-                    provide: gapi_ipfs_pubsub_injection_1.GapiIpfsPubSubRoom,
-                    deps: [
-                        ipfs_1.IPFS,
-                        ipfs_1.IPFS_NODE_READY,
-                        gapi_ipfs_pubsub_logger_1.GapiIpfsPubSubLogger,
-                        gapi_ipfs_pubsub_config_1.GapiIpfsPubSubConfig
-                    ],
-                    useFactory: (ipfs, nodeReady, logger, config) => new Promise((resolve) => nodeReady.subscribe(() => {
-                        logger.log(`Ipfs Pubsub room name: ${config.roomName}!`);
-                        resolve(Room(ipfs, config.roomName));
-                    }))
-                },
+                { provide: gapi_ipfs_pubsub_injection_1.GapiIpfsPubSubRoom, useValue: Room },
+                ...ROOMS
             ]
         };
     }

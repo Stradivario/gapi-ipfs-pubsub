@@ -19,13 +19,27 @@ $ npm install @gapi/ipfs-pubsub --save
 ##### Import inside AppModule or CoreModule
 ```typescript
 
-import { GapiModule } from '@gapi/core';
-import { GapiIpfsPubSubModule } from '@gapi/ipfs-pubsub';
+import { GapiModule, Service } from '@gapi/core';
+import { GapiIpfsPubSubModule, GapiIpfsPubSubRoom } from '@gapi/ipfs-pubsub';
+
+
+@Service()
+export class TestRoom implements GapiIpfsPubSubRoom {
+    name: string = 'TestRoom';
+
+    constructor(
+        @Inject(OrbitDb) private orbitdb: Promise<OrbitDb>
+        @Inject(GapiIpfsPubSubRoom) private ipfsPubSubRoom: GapiIpfsPubSubRoom
+        @Inject(IPFS) private ipfs: IPFS
+    ) {
+
+    }
+}
 
 @GapiModule({
     imports: [
         GapiIpfsPubSubModule.forRoot({
-            roomName: 'your-room',
+            rooms: [TestRoom],
             logging: true
         }),
     ]

@@ -1,7 +1,8 @@
 import { Service } from "@gapi/core";
+import { GapiIpfsPubSubRoom } from "./gapi-ipfs-pubsub-injection";
 
 @Service()
 export class GapiIpfsPubSubConfig {
     logging?: boolean;
-    roomName: string;
+    rooms: Array<GapiIpfsPubSubRoom>;
 }

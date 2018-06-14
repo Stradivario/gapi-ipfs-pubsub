@@ -21,7 +21,12 @@ let GapiIpfsPubSubModule = GapiIpfsPubSubModule_1 = class GapiIpfsPubSubModule {
             .map((room) => ROOMS.push({
             provide: room,
             deps: [ipfs_1.IPFS, gapi_ipfs_pubsub_injection_1.GapiIpfsPubSubRoom],
-            useFactory: (ipfs, room) => room(ipfs, room.name)
+            useFactory: (ipfs, pubsub) => {
+                ipfs.on('ready', () => {
+                    console.log(`Joined to room: ${room.name}`);
+                });
+                return pubsub(ipfs, room.name);
+            }
         }));
         return {
             gapiModule: GapiIpfsPubSubModule_1,

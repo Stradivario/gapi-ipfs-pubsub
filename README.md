@@ -23,9 +23,31 @@ import { GapiModule, Service } from '@gapi/core';
 import { GapiIpfsPubSubModule, GapiIpfsPubSubRoom } from '@gapi/ipfs-pubsub';
 
 
+@GapiModule({
+    imports: [
+        GapiIpfsPubSubModule.forRoot({
+            rooms: [
+                { topic: 'test-topic'},
+                { topic: 'test-topic2'},
+                { topic: 'test-topic3'},
+            ],
+            logging: true
+        }),
+    ]
+})
+export class CoreModule { }
+
+```
+
+
+TODO: Later releases
+```typescript
+import { GapiModule, Service } from '@gapi/core';
+import { GapiIpfsPubSubModule, GapiIpfsPubSubRoom } from '@gapi/ipfs-pubsub';
+
 @Service()
 export class TestRoom implements GapiIpfsPubSubRoom {
-    name: string = 'TestRoom';
+    name?: string = 'TestRoom'; // optional if not provided it will take class name as topic
 
     constructor(
         @Inject(OrbitDb) private orbitdb: Promise<OrbitDb>
@@ -51,3 +73,4 @@ export class CoreModule { }
 TODO: Better documentation...
 
 Enjoy ! :)
+

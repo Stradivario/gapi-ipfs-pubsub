@@ -13,6 +13,7 @@ const core_1 = require("@gapi/core");
 const ipfs_1 = require("@gapi/ipfs");
 const gapi_ipfs_pubsub_config_1 = require("./gapi-ipfs-pubsub-config");
 const gapi_ipfs_pubsub_injection_1 = require("./gapi-ipfs-pubsub-injection");
+const services_1 = require("./services");
 const Room = require('ipfs-pubsub-room');
 let GapiIpfsPubSubModule = GapiIpfsPubSubModule_1 = class GapiIpfsPubSubModule {
     static forRoot(config) {
@@ -20,17 +21,18 @@ let GapiIpfsPubSubModule = GapiIpfsPubSubModule_1 = class GapiIpfsPubSubModule {
         config.rooms
             .map((room) => ROOMS.push({
             provide: room,
-            deps: [ipfs_1.IPFS, gapi_ipfs_pubsub_injection_1.GapiIpfsPubSubRoom],
-            useFactory: (ipfs, pubsub) => {
+            deps: [ipfs_1.IPFS, gapi_ipfs_pubsub_injection_1.GapiIpfsPubSubRoom, services_1.GapiIpfsPubsubTopicService],
+            useFactory: (ipfs, pubsub, topicService) => {
                 ipfs.on('ready', () => {
-                    console.log(`Joined to room: ${room.name}`);
+                    console.log(`Ipfs pubsub -> Joined to room: ${room.topic}`);
                 });
-                return pubsub(ipfs, room.name);
+                return topicService.setTopic(pubsub(ipfs, room.topic));
             }
         }));
         return {
             gapiModule: GapiIpfsPubSubModule_1,
             services: [
+                services_1.GapiIpfsPubsubTopicService,
                 { provide: gapi_ipfs_pubsub_config_1.GapiIpfsPubSubConfig, useValue: config || {} },
                 { provide: gapi_ipfs_pubsub_injection_1.GapiIpfsPubSubRoom, useValue: Room },
                 ...ROOMS

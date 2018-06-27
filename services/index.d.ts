@@ -1,1 +1,1 @@
-export * from './gapi-ipfs-pubsub-topic.service';
+export * from './ipfs-pubsub-topic.service';

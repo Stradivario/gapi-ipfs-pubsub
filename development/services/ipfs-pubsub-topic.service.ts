@@ -1,18 +1,18 @@
-import { Service } from '@gapi/core';
+import { Service } from '@rxdi/core';
 import { BehaviorSubject } from 'rxjs';
-import { GapiIpfsPubSubRoom } from '../gapi-ipfs-pubsub-injection';
+import { IpfsPubSubRoom } from '../ipfs-pubsub-injection';
 
 
 @Service()
-export class GapiIpfsPubsubTopicService {
-    topics: BehaviorSubject<GapiIpfsPubSubRoom[]> = new BehaviorSubject([]);
+export class IpfsPubsubTopicService {
+    topics: BehaviorSubject<IpfsPubSubRoom[]> = new BehaviorSubject([]);
 
-    setTopic(room: GapiIpfsPubSubRoom): GapiIpfsPubSubRoom | Function {
+    setTopic(room: IpfsPubSubRoom): IpfsPubSubRoom | Function {
         this.topics.next([...this.topics.getValue(), room]);
         return this.findTopic(room.topic);
     }
 
-    getTopics(): GapiIpfsPubSubRoom[] {
+    getTopics(): IpfsPubSubRoom[] {
         return this.topics.getValue();
     }
 

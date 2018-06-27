@@ -1,8 +1,8 @@
-import { GapiModuleWithServices } from '@gapi/core';
-import { GapiIpfsPubSubConfig } from './gapi-ipfs-pubsub-config';
-export declare class GapiIpfsPubSubModule {
-    static forRoot(config?: GapiIpfsPubSubConfig): GapiModuleWithServices;
+import { ModuleWithServices } from '@rxdi/core';
+import { IpfsPubSubConfig } from './ipfs-pubsub-config';
+export declare class IpfsPubSubModule {
+    static forRoot(config?: IpfsPubSubConfig): ModuleWithServices;
 }
-export * from './gapi-ipfs-pubsub-config';
-export * from './gapi-ipfs-pubsub-injection';
-export * from './gapi-ipfs-pubsub-logger';
+export * from './ipfs-pubsub-config';
+export * from './ipfs-pubsub-injection';
+export * from './ipfs-pubsub-logger';

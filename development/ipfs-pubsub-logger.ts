@@ -1,11 +1,11 @@
-import { Service, Inject } from "@gapi/core";
-import { GapiIpfsPubSubConfig } from './gapi-ipfs-pubsub-config';
+import { Service } from "@rxdi/core";
+import { IpfsPubSubConfig } from './ipfs-pubsub-config';
 
 @Service()
-export class GapiIpfsPubSubLogger {
+export class IpfsPubSubLogger {
 
     constructor(
-        private config: GapiIpfsPubSubConfig
+        private config: IpfsPubSubConfig
     ) {}
 
     log(message) {

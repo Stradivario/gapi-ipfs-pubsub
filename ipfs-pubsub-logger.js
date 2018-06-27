@@ -9,9 +9,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const core_1 = require("@gapi/core");
-const gapi_ipfs_pubsub_config_1 = require("./gapi-ipfs-pubsub-config");
-let GapiIpfsPubSubLogger = class GapiIpfsPubSubLogger {
+const core_1 = require("@rxdi/core");
+const ipfs_pubsub_config_1 = require("./ipfs-pubsub-config");
+let IpfsPubSubLogger = class IpfsPubSubLogger {
     constructor(config) {
         this.config = config;
     }
@@ -26,8 +26,8 @@ let GapiIpfsPubSubLogger = class GapiIpfsPubSubLogger {
         }
     }
 };
-GapiIpfsPubSubLogger = __decorate([
+IpfsPubSubLogger = __decorate([
     core_1.Service(),
-    __metadata("design:paramtypes", [gapi_ipfs_pubsub_config_1.GapiIpfsPubSubConfig])
-], GapiIpfsPubSubLogger);
-exports.GapiIpfsPubSubLogger = GapiIpfsPubSubLogger;
+    __metadata("design:paramtypes", [ipfs_pubsub_config_1.IpfsPubSubConfig])
+], IpfsPubSubLogger);
+exports.IpfsPubSubLogger = IpfsPubSubLogger;

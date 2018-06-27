@@ -1,22 +1,22 @@
-import { GapiModule, GapiModuleWithServices } from '@gapi/core';
+import { Module, ModuleWithServices } from '@rxdi/core';
 import { IPFS } from '@gapi/ipfs';
-import { GapiIpfsPubSubConfig } from './gapi-ipfs-pubsub-config';
-import { GapiIpfsPubSubRoom } from './gapi-ipfs-pubsub-injection';
-import { GapiIpfsPubsubTopicService } from './services';
+import { IpfsPubSubConfig } from './ipfs-pubsub-config';
+import { IpfsPubSubRoom } from './ipfs-pubsub-injection';
+import { IpfsPubsubTopicService } from './services';
+import Room = require('ipfs-pubsub-room');
 
-const Room = require('ipfs-pubsub-room');
-
-@GapiModule({
-    services: [GapiIpfsPubSubConfig]
+@Module({
+    services: [IpfsPubSubConfig]
 })
-export class GapiIpfsPubSubModule {
-    static forRoot(config?: GapiIpfsPubSubConfig): GapiModuleWithServices {
+export class IpfsPubSubModule {
+    static forRoot(config?: IpfsPubSubConfig): ModuleWithServices {
         const ROOMS = [];
         config.rooms
             .map((room) => ROOMS.push({
                 provide: room,
-                deps: [IPFS, GapiIpfsPubSubRoom, GapiIpfsPubsubTopicService],
-                useFactory: (ipfs: IPFS, pubsub, topicService: GapiIpfsPubsubTopicService) => {
+                deps: [IPFS, IpfsPubSubRoom, IpfsPubsubTopicService],
+                lazy: true,
+                useFactory: (ipfs: IPFS, pubsub, topicService: IpfsPubsubTopicService) => {
                     ipfs.on('ready', () => {
                         console.log(`Ipfs pubsub -> Joined to room: ${room.topic}`);
                     });
@@ -24,17 +24,17 @@ export class GapiIpfsPubSubModule {
                 }
             }));
         return {
-            gapiModule: GapiIpfsPubSubModule,
+            module: IpfsPubSubModule,
             services: [
-                GapiIpfsPubsubTopicService,
-                { provide: GapiIpfsPubSubConfig, useValue: config || {} },
-                { provide: GapiIpfsPubSubRoom, useValue: Room },
+                IpfsPubsubTopicService,
+                { provide: IpfsPubSubConfig, useValue: config || {} },
+                { provide: IpfsPubSubRoom, useValue: Room },
                 ...ROOMS
             ]
         };
     }
 }
 
-export * from './gapi-ipfs-pubsub-config';
-export * from './gapi-ipfs-pubsub-injection';
-export * from './gapi-ipfs-pubsub-logger';
+export * from './ipfs-pubsub-config';
+export * from './ipfs-pubsub-injection';
+export * from './ipfs-pubsub-logger';

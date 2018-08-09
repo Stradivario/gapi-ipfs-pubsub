@@ -24,11 +24,6 @@
   },
   "module": "index.js",
   "typings": "index.d.ts",
-  "peerDependencies": {
-    "@rxdi/core": "^0.0.219",
-    "@gapi/ipfs": "^1.2.25",
-    "rxjs": "^5.5.6"
-  },
   "dependencies": {
     "ipfs-pubsub-room": "^1.3.0"
   },

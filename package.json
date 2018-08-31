@@ -1,6 +1,6 @@
 {
   "name": "@gapi/ipfs-pubsub",
-  "version": "1.2.37",
+  "version": "1.2.38",
   "repository": {
     "type": "git",
     "url": "https://github.com/Stradivario/gapi-ipfs.git"

@@ -30,6 +30,6 @@
   "devDependencies": {
     "@types/node": "^9.4.7",
     "@gapi/ipfs": "^1.4.93",
-    "@rxdi/core": "^0.0.404"
+    "@rxdi/core": "^0.0.418"
   }
 }
